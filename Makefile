@@ -1,5 +1,5 @@
 
-DOCKER_REPO ?= ysde
+DOCKER_REPO ?= ghcr.io/gallis-local/grafana-backup-tool
 DOCKER_NAME := grafana-backup
 DOCKER_TAG ?= latest
 PLATFORMS ?= linux/amd64,linux/arm/v7
