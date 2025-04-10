@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - master
+    paths:
+      - grafana_backup/**
+      - Dockerfile    
+      - DockerfileSlim
+      - .github/workflows/docker-image.yml  
     tags:
       - '*'
-  workflow_dispatch:
   
 
 jobs:
