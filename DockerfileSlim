@@ -1,7 +1,5 @@
 FROM alpine:latest
 
-LABEL maintainer="@egallis31"
-
 ENV RESTORE=false
 ENV ARCHIVE_FILE=""
 
