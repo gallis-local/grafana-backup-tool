@@ -37,7 +37,17 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/grafana-backup-tool  
+          images: ghcr.io/${{ github.repository }}/grafana-backup-tool
+          labels: |
+            org.opencontainers.image.title=grafana-backup-tool
+            org.opencontainers.image.description=Backup and restore tool for Grafana dashboards, datasources, and more.
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.documentation=https://github.com/${{ github.repository }}#readme
+            org.opencontainers.image.licenses=MIT
+            org.opencontainers.image.vendor=${{ github.repository_owner }}
+            org.opencontainers.image.authors=${{ github.actor }}
+            org.opencontainers.image.revision=${{ github.sha }}  
   
       - name: Extract metadata (tags, labels) for Docker (Slim version)
         id: meta_slim
@@ -47,8 +57,19 @@ jobs:
           flavor: |
             latest=auto
             suffix=-slim,onlatest=true
+          labels: |
+            org.opencontainers.image.title=grafana-backup-tool-slim
+            org.opencontainers.image.description=Slim image of the Grafana backup/restore tool.
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.documentation=https://github.com/${{ github.repository }}#readme
+            org.opencontainers.image.licenses=MIT
+            org.opencontainers.image.vendor=${{ github.repository_owner }}
+            org.opencontainers.image.authors=${{ github.actor }}
+            org.opencontainers.image.revision=${{ github.sha }}
 
       - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -57,6 +78,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Docker image slim version
+        id: build_slim
         uses: docker/build-push-action@v6
         with:
           file: ./DockerfileSlim
@@ -64,3 +86,23 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta_slim.outputs.tags }}
           labels: ${{ steps.meta_slim.outputs.labels }}
+
+      - name: Trivy scan (full image)
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}/grafana-backup-tool@${{ steps.build.outputs.digest }}
+          format: 'table'
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+          exit-code: '1'
+
+      - name: Trivy scan (slim image)
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}/grafana-backup-tool-slim@${{ steps.build_slim.outputs.digest }}
+          format: 'table'
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+          exit-code: '1'
