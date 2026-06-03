@@ -23,7 +23,12 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
+      # Only register QEMU/binfmt on GitHub-hosted runners. Self-hosted ARC
+      # runners already have host-level binfmt from the cluster extension;
+      # registering it again inside the pod fails ("no such file or directory")
+      # and can panic the node. runner.environment == 'self-hosted' there.
       - name: Set up QEMU
+        if: runner.environment == 'github-hosted'
         uses: docker/setup-qemu-action@v3
         
       - name: Set up Docker Buildx
