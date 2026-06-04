@@ -114,7 +114,7 @@ jobs:
           image-ref: ghcr.io/${{ github.repository }}/grafana-backup-tool@${{ needs.push_to_registry.outputs.image_digest }}
           format: 'table'
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+          severity: 'MEDIUM'
           ignore-unfixed: true
           exit-code: '1'
 
@@ -124,6 +124,6 @@ jobs:
           image-ref: ghcr.io/${{ github.repository }}/grafana-backup-tool-slim@${{ needs.push_to_registry.outputs.image_slim_digest }}
           format: 'table'
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+          severity: 'MEDIUM'
           ignore-unfixed: true
           exit-code: '1'
