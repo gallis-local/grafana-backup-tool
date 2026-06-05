@@ -15,7 +15,7 @@ on:
 jobs:
   push_to_registry:
     name: Push tagged docker image to GitHub Container Registry
-    runs-on: gallis-gh-runner
+    runs-on: [self-hosted, x64]
     outputs:
       image_digest: ${{ steps.build.outputs.digest }}
       image_slim_digest: ${{ steps.build_slim.outputs.digest }}
@@ -98,7 +98,7 @@ jobs:
 
   security_scans:
     name: Security scans (Trivy)
-    runs-on: gallis-gh-runner
+    runs-on: [self-hosted, x64]
     needs: push_to_registry
     steps:
       - name: Log in to GitHub Container Registry
