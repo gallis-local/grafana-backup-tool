@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.22
 
 ENV RESTORE=false
 ENV ARCHIVE_FILE=""
@@ -15,6 +15,7 @@ ADD . /opt/grafana-backup-tool
 RUN apk add --no-cache ${DEV_PACKAGES} ${PACKAGES} \
     && python3 -m venv /opt/venv \
     && . /opt/venv/bin/activate \
+    && pip install --upgrade pip --no-cache-dir \
     && pip install --no-cache-dir . \
     && chmod -R a+r /opt/grafana-backup-tool \
     && find /opt/grafana-backup-tool -type d -print0 | xargs -0 chmod a+rx \
