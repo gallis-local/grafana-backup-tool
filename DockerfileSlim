@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.21
 
 ENV RESTORE=false
 ENV ARCHIVE_FILE=""
@@ -6,12 +6,12 @@ ENV ARCHIVE_FILE=""
 ENV DEV_PACKAGES="gcc libc-dev libffi-dev py3-pip python3-dev"
 ENV PACKAGES="bash ca-certificates py3-cffi py3-cryptography py3-six py3-packaging"
 
-# Рабочая директория
+# Working directory
 WORKDIR /opt/grafana-backup-tool
 
 ADD . /opt/grafana-backup-tool
 
-# Устанавливаем системные зависимости и Python-пакеты в одном слое
+# Install system dependencies and Python packages in one layer
 RUN apk add --no-cache ${DEV_PACKAGES} ${PACKAGES} \
     && python3 -m venv /opt/venv \
     && . /opt/venv/bin/activate \

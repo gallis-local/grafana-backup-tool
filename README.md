@@ -57,7 +57,7 @@ There are three ways to setup the configuration:
 ```bash
 ### Do not use a trailing slash on GRAFANA_URL
 export GRAFANA_URL=http://some.host.org:3000
-export GRAFANA_TOKEN=eyJrIjoidUhaU2ZQQndrWFN3RRVkUnVfrT56a1JoaG9KWFFObEgiLCJuIjoiYWRtaW4iLCJpZCI6MX0=
+export GRAFANA_TOKEN=<your-grafana-token-here>
 
 # GRAFANA_HEADERS is optional
 export GRAFANA_HEADERS=Host:some.host.org
@@ -148,13 +148,13 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
 
 ```
 docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
-           -e GRAFANA_TOKEN="eyJrIjoiNGZqTDEyeXNaY0RsMXNhbkNTSnlKN2M3bE1VeHdqVTEiLCJuIjoiZ3JhZmFuYS1iYWNrdXAiLCJpZCI6MX0=" \
+           -e GRAFANA_TOKEN=<your-grafana-token-here> \
            -e GRAFANA_URL=http://192.168.0.79:3000 \
            -e GRAFANA_ADMIN_ACCOUNT=admin \
            -e GRAFANA_ADMIN_PASSWORD=adminpassword \
            -e VERIFY_SSL=False \
            -v /tmp/backup/:/opt/grafana-backup-tool/_OUTPUT_ \
-           ysde/docker-grafana-backup-tool
+           ghcr.io/gallis-local/grafana-backup-tool/grafana-backup-tool-slim:latest
 ```
 
 ***S3 Example:*** Set S3 configurations in `-e` or `grafanaSettings.json`([example](https://github.com/ysde/grafana-backup-tool/blob/master/examples/grafana-backup.example.json))
@@ -200,7 +200,7 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
 
 ```
 docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
-           -e GRAFANA_TOKEN="eyJrIjoiNGZqTDEyeXNaY0RsMXNhbkNTSnlKN2M3bE1VeHdqVTEiLCJuIjoiZ3JhZmFuYS1iYWNrdXAiLCJpZCI6MX0=" \
+           -e GRAFANA_TOKEN=<your-grafana-token-here> \
            -e GRAFANA_URL=http://192.168.0.79:3000 \
            -e GRAFANA_ADMIN_ACCOUNT=admin \
            -e GRAFANA_ADMIN_PASSWORD=adminpassword \
@@ -208,7 +208,7 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
            -e RESTORE="true" \
            -e ARCHIVE_FILE="202006280247.tar.gz" \
            -v /tmp/backup/:/opt/grafana-backup-tool/_OUTPUT_ \
-           ysde/docker-grafana-backup-tool
+           ghcr.io/gallis-local/grafana-backup-tool/grafana-backup-tool-slim:latest
 ```
 
 ### Building

@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.21
 
 ENV RESTORE false
 ENV ARCHIVE_FILE ""
@@ -10,7 +10,7 @@ WORKDIR /opt/grafana-backup-tool
 ADD . /opt/grafana-backup-tool
 
 RUN chmod -R a+r /opt/grafana-backup-tool \
- && find /opt/grafana-backup-tool -type d -print0 | xargs -0 chmod a+rx
+    && find /opt/grafana-backup-tool -type d -print0 | xargs -0 chmod a+rx
 
 # Create and activate a virtual environment
 RUN python3 -m venv /opt/venv \
